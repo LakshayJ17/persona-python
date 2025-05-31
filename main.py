@@ -37,20 +37,33 @@ for msg in st.session_state.messages:
     elif msg["role"] == "assistant":
         shown = False
         with st.chat_message("assistant"):
-            for line in msg["content"].strip().splitlines():
-                line = line.strip()
-                if not line or line.startswith("```"):
-                    continue
-                line = line.replace("```json", "").replace("```", "").strip()
-                try:
-                    data = json.loads(line)
+            # Try to parse as JSON array first
+            try:
+                data = json.loads(msg["content"])
+                if isinstance(data, list):
+                    for obj in data:
+                        if obj.get("step") == "result":
+                            st.markdown(f"**{persona_name}:** {obj.get('content')}")
+                            shown = True
+                elif isinstance(data, dict):
                     if data.get("step") == "result":
                         st.markdown(f"**{persona_name}:** {data.get('content')}")
                         shown = True
-                except json.JSONDecodeError:
-                    continue
+            except json.JSONDecodeError:
+                # Fallback: parse line by line
+                for line in msg["content"].strip().splitlines():
+                    line = line.strip()
+                    if not line or line.startswith("```"):
+                        continue
+                    line = line.replace("```json", "").replace("```", "").strip()
+                    try:
+                        data = json.loads(line)
+                        if data.get("step") == "result":
+                            st.markdown(f"**{persona_name}:** {data.get('content')}")
+                            shown = True
+                    except json.JSONDecodeError:
+                        continue
             if not shown:
-                # Debug: Show raw response if no result step found
                 st.markdown(
                     f"<span style='color:gray;font-size:small;'>[No 'result' step found. Raw response:]</span><br><code>{msg['content']}</code>",
                     unsafe_allow_html=True
