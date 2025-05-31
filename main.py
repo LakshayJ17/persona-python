@@ -86,7 +86,7 @@ st.markdown(
     """
     <hr style='margin-top: 2em;'>
     <div style='text-align:center; font-size:0.9em; color:gray;'>
-        Made with Lakshay Jain
+        Made by Lakshay Jain
         <a href='https://github.com/LakshayJ17' target='_blank' style='text-decoration: none; margin-left: 6px;'>
             <img src='https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg' alt='GitHub' width='18' style='vertical-align:middle; filter: invert(100%);' />
         </a>
