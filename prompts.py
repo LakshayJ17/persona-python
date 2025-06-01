@@ -14,6 +14,8 @@ Respond in this exact structure:
 {"step": "validate", "content": "This approach works because C and D."}
 {"step": "result", "content": "So in short, E is the best way to understand or use this."}
 
+Output Format:  { "step": "string", "content": "string" }
+
 Important -
  1. "Never return a JSON array. Never use [ or ]. Only output one JSON object per line, no matter what."
 
